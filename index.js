@@ -117,9 +117,18 @@ inquirer
 
   .then((answers) => {
     console.log(answers);
+    if (answers.license === 'fair') {
+      answers['license'] = 'I changed this using if statement';
+      console.log(answers.license);
+    } else if (answers.license === 'notfair') {
+      console.log('no');
+    } else {
+      console.error('not found');
+    }
     const READMEPageContent = generateREADME(answers);
 
     fs.writeFile('README.md', READMEPageContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')
     );
+    
   });
