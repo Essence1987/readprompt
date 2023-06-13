@@ -1,6 +1,51 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits}) =>
+
+`# ${title}
+
+${description}
+
+# Features
+
+${features}
+
+# Installation
+
+${install}
+
+# Usage
+
+${usage}
+
+# Technologies Used
+
+${tech}
+
+# Test
+
+The following animation demonstrates the application functionality:
+
+${test}
+
+# Credits
+
+${credits}
+
+#Contribute
+
+${contribute}
+
+#Questions
+
+${github}
+${email}
+
+# License
+
+${title} is released under the MIT License. Feel free to modify and use the code for your own purposes.`;
+
 inquirer
   .prompt([
     {
@@ -15,7 +60,12 @@ inquirer
     },
     {
       type: 'input',
-      name: 'installation',
+      name: 'features',
+      message: 'What are this applications features?',
+    },
+    {
+      type: 'input',
+      name: 'install',
       message: 'How does one install this application?',
     },
     {
@@ -35,11 +85,6 @@ inquirer
     },
     {
       type: 'input',
-      name: 'usage',
-      message: 'How does this application work?',
-    },
-    {
-      type: 'input',
       name: 'github',
       message: 'Enter your GitHub Username',
     },
@@ -48,12 +93,23 @@ inquirer
       name: 'email',
       message: 'What is your e-mail?',
     },
+     {
+      type: 'input',
+      name: 'tech',
+      message: 'What tecnology was used to create this project?',
+    },
+    {
+      type: 'input',
+      name: 'credits',
+      message: 'Enter credentials for those who helped or are helping build this application.',
+    },
   ])
+
   .then((answers) => {
     console.log(answers);
-    const htmlPageContent = generateHTML(answers);
+    const READMEPageContent = generateREADME(answers);
 
-    fs.writeFile('index.html', htmlPageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created index.html!')
+    fs.writeFile('README.md', READMEPageContent, (err) =>
+      err ? console.log(err) : console.log('Successfully created README.md!')
     );
   });
