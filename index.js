@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits}) =>
+const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits, license}) =>
 
 `# ${title}
 
@@ -39,12 +39,12 @@ ${contribute}
 
 #Questions
 
-${github}
+[Click here] (https://github.com/${github}) to find my Repo!
 ${email}
 
 # License
 
-${title} is released under the MIT License. Feel free to modify and use the code for your own purposes.`;
+${title} is released under the ${license} License. Feel free to modify and use the code for your own purposes.`;
 
 inquirer
   .prompt([
@@ -102,6 +102,16 @@ inquirer
       type: 'input',
       name: 'credits',
       message: 'Enter credentials for those who helped or are helping build this application.',
+    },
+    {
+      type: 'list',
+      name: 'license',
+      message: 'What type of license is this project?',
+      choices: [
+        'mit',
+        'fair',
+        'notfair',
+      ]
     },
   ])
 
