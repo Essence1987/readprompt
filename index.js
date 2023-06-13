@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits, license}) =>
+const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits, license, theme}) =>
 
-`# ${title}
+`# ${title} ${license}
 
 ${description}
 
@@ -39,12 +39,15 @@ ${contribute}
 
 #Questions
 
-[Click here] (https://github.com/${github}) to find my Repo!
-${email}
+Click the image below to go to my github page!
+
+<a href="https://github.com/${github}"><img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=${github}&theme=${theme}"/></a>
+
+My email is ${email}
 
 # License
 
-${title} is released under the ${license} License. Feel free to modify and use the code for your own purposes.`;
+${title} is released under ${license}.`;
 
 inquirer
   .prompt([
@@ -105,26 +108,53 @@ inquirer
     },
     {
       type: 'list',
+      name: 'theme',
+      message: 'What type of license is this project?',
+      choices: [
+        'default',
+        '2077',
+        'dracula',
+        'github',
+        'github_dark',
+        'gruvbox',
+        'monokai',
+        'nord_bright',
+        'nord_dark',
+        'radical',
+        'solarized',
+        'solarized_dark',
+        'tokyonight',
+        'vue',
+        'zenburn',
+      ]
+    },
+    {
+      type: 'list',
       name: 'license',
       message: 'What type of license is this project?',
       choices: [
-        'mit',
-        'fair',
-        'notfair',
+        'MIT',
+        'GNU',
+        'Apache',
       ]
     },
   ])
 
   .then((answers) => {
     console.log(answers);
-    if (answers.license === 'fair') {
-      answers['license'] = 'I changed this using if statement';
+    if (answers.license === 'MIT') {
+      answers['license'] = '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)';
       console.log(answers.license);
-    } else if (answers.license === 'notfair') {
-      console.log('no');
+    } else if (answers.license === 'GNU') {
+      answers['license'] = '[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)'
+      console.log(answers.license);
+    } else if (answers.license === 'Apache') {
+      answers['license'] = '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
+      console.log(answers.license);
     } else {
       console.error('not found');
     }
+    
     const READMEPageContent = generateREADME(answers);
 
     fs.writeFile('README.md', READMEPageContent, (err) =>
