@@ -1,15 +1,13 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, collaborators, credits, license, theme}) =>
+const generateREADME = ({begin, title, table, motivation, install, usage, features, tech, contribute, test, github, email, collaborators, credits, license, theme, assets}) =>
 
 `# **${title}** ${license}
 
-${description}
+${motivation}
 
-# **Table of Contents**
-
-Edit Table of Contents here
+${table}
 
 # **Features**
 
@@ -37,7 +35,9 @@ ${test}
 
 ${credits}
 
-# **Contribute**
+${assets}
+
+# **How to Contribute**
 
 ${contribute}
 
@@ -57,13 +57,26 @@ inquirer
   .prompt([
     {
       type: 'input',
+      name: 'begin',
+      message: 'The majority of questions are optional. If you do not know the answer, or wish to enter it at a later date, then leave it blank and hit enter to continue on. All questions presented in a list format must have an answer. You can cancel creation of the README file by pressing Ctrl + D on any question. Your answers will not be saved if canceled. Please hit enter when you are ready to proceed.',
+    },
+    {
+      type: 'input',
       name: 'title',
       message: 'What is your projects title?',
     },
     {
+      type: 'list',
+      name: 'table',
+      message: 'Would you like to include a table of contents? This is an optional choice as shorter readme files may not need one.',
+      choices: ['Yes',
+    'No',
+  ]
+    },
+    {
       type: 'input',
-      name: 'description',
-      message: 'Brief explination about your project?',
+      name: 'motivation',
+      message: 'Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide. What was your motivation? Why did you build this project? (Note: the answer is not "Because I felt like it.") What problem does it solve? What did you learn?',
     },
     {
       type: 'input',
@@ -73,12 +86,12 @@ inquirer
     {
       type: 'input',
       name: 'install',
-      message: 'What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.',
+      message: 'What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running. If images required for explination those will need to be added manually.',
     },
     {
       type: 'input',
       name: 'usage',
-      message: 'How does this application work? Provide instructions and examples for use. Include screenshots as needed after file is created.',
+      message: 'How does this application work? Provide instructions and examples for use. Include screenshots as needed manually after file is created.',
     },
     {
         type: 'input',
@@ -140,7 +153,7 @@ inquirer
     {
       type: 'list',
       name: 'collaborators',
-      message: 'How many collaborators, if any, for this project? More than 4 will require making additonal entries manually.',
+      message: 'How many collaborators, if any, for this project? We will ask for their usernames later to create links to their github page. More than 4 will require making additonal entries manually.',
       choices: [
         '0',
         '1',
@@ -149,6 +162,18 @@ inquirer
         '4',
       ]
     },
+    {
+      type: 'list',
+      name: 'assets',
+      message: 'How many third-party assets did you use that require attribution? This includes, but is not limited too, APIs, Repos, npm, node, programs, ext.',
+      choices: [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+      ]
+      },
   ])
 
   .then((answers) => {
@@ -166,6 +191,20 @@ inquirer
       console.error('not found');
     }
     
+    if (answers.table === 'Yes') {
+      answers['table'] = '#**Table of Contents**<br>1. [Credits](#Credits)'
+    } else if (answers.table === 'No') {
+      answers['table'] = ''
+    }
+
+    if (answers.assets === '0') {
+      answers['assets'] = 'No third party assets were used in the creation of this project.'
+      console.log(answers.assets);
+    } else if (answers.assets === '1') {
+      answers['assets'] = "testing."
+      console.log(answers.assets);
+    }
+
     if (answers.collaborators === '0') {
       answers['credits'] = 'This was a solo project with no contributers taking part.';
       console.log(answers.credits);
