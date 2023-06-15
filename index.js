@@ -140,14 +140,13 @@ inquirer
     {
       type: 'list',
       name: 'collaborators',
-      message: 'How many collaborators, if any, for this project?',
+      message: 'How many collaborators, if any, for this project? More than 4 will require making additonal entries manually.',
       choices: [
         '0',
         '1',
         '2',
         '3',
         '4',
-        'more than 4',
       ]
     },
   ])
@@ -207,11 +206,70 @@ inquirer
 ]) 
 .then((answers2) => {
   console.log(answers2);
-  answers['credits'] = (`The following individuals assisted me in this project. Clicking their name will take you to their personal Repos.<a href="https://github.com/${answers2.name}">${answers2.name}</a><br>-<a href="https://github.com/${answers2.name2}">${answers2.name2}</a>`);
+  answers['credits'] = (`The following individuals assisted me in this project. Clicking their name will take you to their personal Repos.<br><a href="https://github.com/${answers2.name}">${answers2.name}</a><br>-<a href="https://github.com/${answers2.name2}">${answers2.name2}</a>`);
   console.log(answers);
   const READMEPageContent = generateREADME(answers);
   fs.writeFile('README.md', READMEPageContent, (err) =>
   err ? console.log(err) : console.log('Successfully created README.md!')
+); 
+})} else if (answers.collaborators === '4') {
+  inquirer
+.prompt([
+{
+  type: 'input',
+  name: 'name',
+  message: 'What is the frist contributers github username?',
+},
+{
+  type: 'input',
+  name: 'name2',
+  message: 'What is the 2nd contributers github username?',
+},
+{
+  type: 'input',
+  name: 'name3',
+  message: 'What is the 3rd contributers github username?',
+},
+{
+  type: 'input',
+  name: 'name4',
+  message: 'What is the 4th contributers github username?',
+},
+]) 
+.then((answers2) => {
+console.log(answers2);
+answers['credits'] = (`The following individuals assisted me in this project. Clicking their name will take you to their personal Repos.<br>-<a href="https://github.com/${answers2.name}">${answers2.name}</a><br>-<a href="https://github.com/${answers2.name2}">${answers2.name2}</a><br>-<a href="https://github.com/${answers2.name3}">${answers2.name3}</a><br>-<a href="https://github.com/${answers2.name4}">${answers2.name4}</a>`);
+console.log(answers);
+const READMEPageContent = generateREADME(answers);
+fs.writeFile('README.md', READMEPageContent, (err) =>
+err ? console.log(err) : console.log('Successfully created README.md!')
+); 
+})} else if (answers.collaborators === '3') {
+  inquirer
+.prompt([
+{
+  type: 'input',
+  name: 'name',
+  message: 'What is the frist contributers github username?',
+},
+{
+  type: 'input',
+  name: 'name2',
+  message: 'What is the 2nd contributers github username?',
+},
+{
+  type: 'input',
+  name: 'name3',
+  message: 'What is the 3rd contributers github username?',
+},
+]) 
+.then((answers2) => {
+console.log(answers2);
+answers['credits'] = (`The following individuals assisted me in this project. Clicking their name will take you to their personal Repos.<br>-<a href="https://github.com/${answers2.name}">${answers2.name}</a><br>-<a href="https://github.com/${answers2.name2}">${answers2.name2}</a><br>-<a href="https://github.com/${answers2.name3}">${answers2.name3}</a>`);
+console.log(answers);
+const READMEPageContent = generateREADME(answers);
+fs.writeFile('README.md', READMEPageContent, (err) =>
+err ? console.log(err) : console.log('Successfully created README.md!')
 ); 
 })} else {
       console.error('not found');
