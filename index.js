@@ -1,43 +1,47 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, credits, license, theme}) =>
+const generateREADME = ({title, description, install, usage, features, tech, contribute, test, github, email, collaborators, credits, license, theme}) =>
 
-`# ${title} ${license}
+`# **${title}** ${license}
 
 ${description}
 
-# Features
+# **Table of Contents**
+
+Edit Table of Contents here
+
+# **Features**
 
 ${features}
 
-# Installation
+# **Installation**
 
 ${install}
 
-# Usage
+# **Usage**
 
 ${usage}
 
-# Technologies Used
+# **Technologies Used**
 
 ${tech}
 
-# Test
+# **Test**
 
 The following animation demonstrates the application functionality:
 
 ${test}
 
-# Credits
+# **Credits**
 
 ${credits}
 
-#Contribute
+# **Contribute**
 
 ${contribute}
 
-#Questions
+# **Questions**
 
 Click the image below to go to my github page!
 
@@ -45,7 +49,7 @@ Click the image below to go to my github page!
 
 My email is ${email}
 
-# License
+# **License**
 
 ${title} is released under ${license}.`;
 
@@ -69,12 +73,12 @@ inquirer
     {
       type: 'input',
       name: 'install',
-      message: 'How does one install this application?',
+      message: 'What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.',
     },
     {
       type: 'input',
       name: 'usage',
-      message: 'How does this application work?',
+      message: 'How does this application work? Provide instructions and examples for use. Include screenshots as needed after file is created.',
     },
     {
         type: 'input',
@@ -102,14 +106,9 @@ inquirer
       message: 'What tecnology was used to create this project?',
     },
     {
-      type: 'input',
-      name: 'credits',
-      message: 'Enter credentials for those who helped or are helping build this application.',
-    },
-    {
       type: 'list',
       name: 'theme',
-      message: 'What type of license is this project?',
+      message: 'Choose a theme for your Github Profile Card.',
       choices: [
         'default',
         '2077',
@@ -138,6 +137,24 @@ inquirer
         'Apache',
       ]
     },
+    {
+      type: 'list',
+      name: 'collaborators',
+      message: 'How many collaborators, if any, for this project?',
+      choices: [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+      ]
+    },
   ])
 
   .then((answers) => {
@@ -155,10 +172,27 @@ inquirer
       console.error('not found');
     }
     
+    if (answers.collaborators === '0') {
+      answers['credits'] = '';
+      console.log(answers.credits);
+    } else if (answers.collaborators === '1') {
+      inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'credits',
+      message: 'What is the frist contributers github username?',
+    },
+  ])
+  .then((answers2) => {
+    console.log(answers2);
+    answers['credits'] = (`-${answers2.credits}`);
+    console.log(answers);
     const READMEPageContent = generateREADME(answers);
-
     fs.writeFile('README.md', READMEPageContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created README.md!')
-    );
-    
+    err ? console.log(err) : console.log('Successfully created README.md!')
+  );
+  })} else {
+      console.error('not found');
+    }
   });
