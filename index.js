@@ -147,12 +147,7 @@ inquirer
         '2',
         '3',
         '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
+        'more than 4',
       ]
     },
   ])
@@ -173,8 +168,12 @@ inquirer
     }
     
     if (answers.collaborators === '0') {
-      answers['credits'] = '';
+      answers['credits'] = 'This was a solo project with no contributers taking part.';
       console.log(answers.credits);
+        console.log(answers);
+        const READMEPageContent = generateREADME(answers);
+    fs.writeFile('README.md', READMEPageContent, (err) =>
+    err ? console.log(err) : console.log('Successfully created README.md!'));
     } else if (answers.collaborators === '1') {
       inquirer
   .prompt([
@@ -183,16 +182,38 @@ inquirer
       name: 'credits',
       message: 'What is the frist contributers github username?',
     },
-  ])
+  ]) 
   .then((answers2) => {
     console.log(answers2);
-    answers['credits'] = (`-${answers2.credits}`);
+    answers['credits'] = (`The following individual assisted me in this project. Clicking their name will take you to their personal Repo. <br>-<a href="https://github.com/${answers2.name}>`);
     console.log(answers);
     const READMEPageContent = generateREADME(answers);
     fs.writeFile('README.md', READMEPageContent, (err) =>
     err ? console.log(err) : console.log('Successfully created README.md!')
-  );
-  })} else {
+  ); 
+  })} else if (answers.collaborators === '2') {
+    inquirer
+.prompt([
+  {
+    type: 'input',
+    name: 'name',
+    message: 'What is the frist contributers github username?',
+  },
+  {
+    type: 'input',
+    name: 'name2',
+    message: 'What is the second contributers github username?',
+  },
+]) 
+.then((answers2) => {
+  console.log(answers2);
+  answers['credits'] = (`The following individuals assisted me in this project. Clicking their name will take you to their personal Repos.<a href="https://github.com/${answers2.name}">${answers2.name}</a><br>-<a href="https://github.com/${answers2.name2}">${answers2.name2}</a>`);
+  console.log(answers);
+  const READMEPageContent = generateREADME(answers);
+  fs.writeFile('README.md', READMEPageContent, (err) =>
+  err ? console.log(err) : console.log('Successfully created README.md!')
+); 
+})} else {
       console.error('not found');
     }
   });
