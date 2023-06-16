@@ -21,7 +21,7 @@ ${install}
 
 ${usage}
 
-# **Technologies Used**
+# **Technology**
 
 ${tech}
 
@@ -37,7 +37,7 @@ ${credits}
 
 ${assets}
 
-# **How to Contribute**
+# **Contribute**
 
 ${contribute}
 
@@ -51,7 +51,7 @@ My email is ${email}
 
 # **License**
 
-${title} is released under ${license}.`;
+${title} is released under ${license}. Click on the badge for more information.`;
 
 inquirer
   .prompt([
@@ -185,7 +185,7 @@ inquirer
     }
     
     if (answers.table === 'Yes') {
-      answers['table'] = '#**Table of Contents**<br>1. [Credits](#Credits)'
+      answers['table'] = '#**Table of Contents**<br><ul><li>[Features](#features)</li><li>[Installation](#installation)</li><li>[Usage](#usage)</li><li>[Technology](#technology)</li><li>[Tests](#test)</li><li>[Credits](#credits)</li><li>[Contribute](#contribute)</li><li>[Questions](#questions)</li><li>[License](#license)</li>'
     } else if (answers.table === 'No') {
       answers['table'] = ''
     }
@@ -217,7 +217,7 @@ inquirer
   ]) 
   .then((answers2) => {
     console.log(answers2);
-    answers['credits'] = (`The following individual assisted me in this project. Clicking their name will take you to their personal Repo. <br>-<a href="https://github.com/${answers2.name}>`);
+    answers['credits'] = (`The following individual assisted me in this project. Clicking their name will take you to their personal Repo. <br>-<a href="https://github.com/${answers2.name}>${answer2.name}</a>`);
     console.log(answers);
     const READMEPageContent = generateREADME(answers);
     fs.writeFile('README.md', READMEPageContent, (err) =>
