@@ -163,17 +163,10 @@ inquirer
       ]
     },
     {
-      type: 'list',
+      type: 'input',
       name: 'assets',
-      message: 'How many third-party assets did you use that require attribution? This includes, but is not limited too, APIs, Repos, npm, node, programs, ext.',
-      choices: [
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-      ]
-      },
+      message: 'Enter any Thrid-Party assets utilized during this project? This includes, but is not limited too, APIs, Repos, npm, node, programs, ext.',
+    },
   ])
 
   .then((answers) => {
@@ -197,11 +190,12 @@ inquirer
       answers['table'] = ''
     }
 
-    if (answers.assets === '0') {
+    if (answers.install === '') {
+      answers['install'] = "No installations required for this project."
+    }
+
+    if (answers.assets === '') {
       answers['assets'] = 'No third party assets were used in the creation of this project.'
-      console.log(answers.assets);
-    } else if (answers.assets === '1') {
-      answers['assets'] = "testing."
       console.log(answers.assets);
     }
 
