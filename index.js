@@ -208,21 +208,22 @@ inquirer
     err ? console.log(err) : console.log('Successfully created README.md!'));
     } else if (answers.collaborators === '1') {
       inquirer
-  .prompt([
-    {
-      type: 'input',
-      name: 'credits',
-      message: 'What is the frist contributers github username?',
-    },
-  ]) 
-  .then((answers2) => {
-    console.log(answers2);
-    answers['credits'] = (`The following individual assisted me in this project. Clicking their name will take you to their personal Repo. <br>-<a href="https://github.com/${answers2}>${answers2.name}</a>`);
-    console.log(answers);
-    const READMEPageContent = generateREADME(answers);
-    fs.writeFile('README.md', READMEPageContent, (err) =>
-    err ? console.log(err) : console.log('Successfully created README.md!')
-  ); 
+        .prompt([
+          {
+            type: 'input',
+            name: 'name',
+            message: 'What is the first contributor\'s GitHub username?',
+          },
+        ])
+        .then((answers2) => {
+          console.log(answers2);
+          answers['credits'] = `The following individual assisted me in this project. Clicking their name will take you to their personal Repo. <br>-<a href="https://github.com/${answers2.name}">${answers2.name}</a>`;
+          console.log(answers2);
+          console.log(answers);
+          const READMEPageContent = generateREADME(answers);
+          fs.writeFile('README.md', READMEPageContent, (err) =>
+            err ? console.log(err) : console.log('Successfully created README.md!')
+          );
   })} else if (answers.collaborators === '2') {
     inquirer
 .prompt([
