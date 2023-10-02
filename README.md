@@ -49,6 +49,12 @@ After installing the dependencies, run the application with the following comman
    node index.js
 The application will prompt you for information about your project and generate a professional README.md file based on your input.
 
+Please watch this video for a demonstration of this project:
+
+
+https://github.com/Essence1987/readprompt/assets/129245370/7ca9e0aa-b3f4-4e83-85f4-c7942a77ab73
+
+
 # **License**
 
 README generator is released under [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT). Click on the badge for more information.
